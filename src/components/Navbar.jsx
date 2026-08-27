@@ -51,40 +51,42 @@ export default function Navbar({ onOpenDemoModal }) {
     >
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Brand Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+          <img
+            src="/logo.png"
+            alt="RestroMind AI Logo"
             style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, #10b981 0%, #6366f1 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 0 20px rgba(16, 185, 129, 0.4)',
+              height: '42px',
+              width: '42px',
+              borderRadius: '10px',
+              objectFit: 'cover',
+              boxShadow: '0 0 20px rgba(239, 68, 68, 0.4)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
             }}
-          >
-            <Sparkles size={22} color="#ffffff" />
-          </div>
+          />
           <div>
-            <span style={{ fontSize: '1.35rem', fontWeight: 800, letterSpacing: '-0.02em', color: '#ffffff' }}>
-              Restro<span className="gradient-text">Mind</span>
-            </span>
-            <span
-              style={{
-                marginLeft: '6px',
-                fontSize: '0.7rem',
-                fontWeight: 700,
-                padding: '2px 6px',
-                borderRadius: '6px',
-                background: 'rgba(16, 185, 129, 0.15)',
-                color: '#34d399',
-                border: '1px solid rgba(16, 185, 129, 0.3)',
-                textTransform: 'uppercase',
-              }}
-            >
-              AI
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ fontSize: '1.35rem', fontWeight: 900, letterSpacing: '-0.02em', color: '#ffffff' }}>
+                Restro<span style={{ color: '#ef4444' }}>Mind</span>
+              </span>
+              <span
+                style={{
+                  fontSize: '0.75rem',
+                  fontWeight: 800,
+                  padding: '2px 6px',
+                  borderRadius: '6px',
+                  background: 'rgba(239, 68, 68, 0.18)',
+                  color: '#f87171',
+                  border: '1px solid rgba(239, 68, 68, 0.35)',
+                  textTransform: 'uppercase',
+                }}
+              >
+                AI
+              </span>
+            </div>
+            <div style={{ fontSize: '0.62rem', color: '#94a3b8', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600, marginTop: '-2px' }}>
+              Modern Restaurant Intelligence
+            </div>
           </div>
         </Link>
 
