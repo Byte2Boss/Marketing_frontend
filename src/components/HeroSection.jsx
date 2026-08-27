@@ -114,7 +114,7 @@ export default function HeroSection({ onOpenDemoModal }) {
                   <div style={{ background: 'rgba(30, 41, 69, 0.5)', padding: '10px 14px', borderRadius: '10px', borderLeft: '3px solid #10b981' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: 600, color: '#ffffff' }}>
                       <span>Table #04 (Patio)</span>
-                      <span style={{ color: '#10b981' }}>$84.50</span>
+                      <span style={{ color: '#10b981' }}>₹2,450.00</span>
                     </div>
                     <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>2x Dry-Aged Ribeye + 2x Cabernet (AI Upsell)</div>
                   </div>
@@ -122,7 +122,7 @@ export default function HeroSection({ onOpenDemoModal }) {
                   <div style={{ background: 'rgba(30, 41, 69, 0.5)', padding: '10px 14px', borderRadius: '10px', borderLeft: '3px solid #6366f1' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: 600, color: '#ffffff' }}>
                       <span>Table #12 (Main Floor)</span>
-                      <span style={{ color: '#6366f1' }}>$42.00</span>
+                      <span style={{ color: '#6366f1' }}>₹1,250.00</span>
                     </div>
                     <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>1x Truffle Risotto + 1x Pinot Grigio</div>
                   </div>
@@ -143,7 +143,7 @@ export default function HeroSection({ onOpenDemoModal }) {
                   </div>
                   <div style={{ background: 'rgba(99, 102, 241, 0.1)', padding: '14px', borderRadius: '12px', border: '1px solid rgba(99, 102, 241, 0.25)' }}>
                     <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Extra Revenue Today</div>
-                    <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#818cf8', marginTop: '2px' }}>+$840</div>
+                    <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#818cf8', marginTop: '2px' }}>+₹18,400</div>
                   </div>
                 </div>
               </div>

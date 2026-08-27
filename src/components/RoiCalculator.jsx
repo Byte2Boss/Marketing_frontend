@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { DollarSign, TrendingUp, Clock, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { TrendingUp, Clock, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { calculateRoi } from '../api/endpoints';
 
 export default function RoiCalculator({ onOpenDemoModal, onShowToast }) {
   const [tablesCount, setTablesCount] = useState(25);
   const [ordersPerTable, setOrdersPerTable] = useState(6);
-  const [avgCheck, setAvgCheck] = useState(42);
+  const [avgCheck, setAvgCheck] = useState(850);
   const [email, setEmail] = useState('');
   const [reportSent, setReportSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Dynamic calculations
+  // Dynamic calculations in INR (₹)
   const monthlyOrders = tablesCount * ordersPerTable * 30;
   const currentMonthlyGross = monthlyOrders * avgCheck;
   const monthlyRevenueUplift = Math.round(currentMonthlyGross * 0.18); // 18% AI uplift
@@ -96,24 +96,24 @@ export default function RoiCalculator({ onOpenDemoModal, onShowToast }) {
             </div>
           </div>
 
-          {/* Slider 3: Average Order Value */}
+          {/* Slider 3: Average Order Value in INR */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <label className="form-label" style={{ fontWeight: 600 }}>Average Check Size ($ USD)</label>
-              <span style={{ fontWeight: 800, color: '#f59e0b', fontSize: '1.1rem' }}>${avgCheck}.00</span>
+              <label className="form-label" style={{ fontWeight: 600 }}>Average Check Size (₹ INR)</label>
+              <span style={{ fontWeight: 800, color: '#f59e0b', fontSize: '1.1rem' }}>₹{avgCheck}.00</span>
             </div>
             <input
               type="range"
-              min="10"
-              max="200"
-              step="1"
+              min="200"
+              max="3500"
+              step="50"
               value={avgCheck}
               onChange={(e) => setAvgCheck(e.target.value)}
               className="range-slider"
             />
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-              <span>$10</span>
-              <span>$200</span>
+              <span>₹200</span>
+              <span>₹3,500</span>
             </div>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function RoiCalculator({ onOpenDemoModal, onShowToast }) {
               Projected Monthly Revenue Lift (+18% AI Boost)
             </span>
             <div style={{ fontSize: '2.75rem', fontWeight: 900, color: '#10b981', lineHeight: '1.1', marginTop: '6px' }}>
-              +${monthlyRevenueUplift.toLocaleString()}
+              +₹{monthlyRevenueUplift.toLocaleString()}
               <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 500 }}> / month</span>
             </div>
           </div>
@@ -142,7 +142,7 @@ export default function RoiCalculator({ onOpenDemoModal, onShowToast }) {
             <div>
               <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Projected Annual Gain</div>
               <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff' }}>
-                +${annualRevenueUplift.toLocaleString()}
+                +₹{annualRevenueUplift.toLocaleString()}
               </div>
             </div>
             <div>

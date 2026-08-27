@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Check, Sparkles, ArrowRight, Shield } from 'lucide-react';
 import { PRICING_TIERS, PRICING_COMPARISON_MATRIX } from '../data/pricingData';
+import { fetchPricingContent } from '../api/endpoints';
 
 export default function PricingTable({ onOpenDemoModal }) {
   const [isAnnual, setIsAnnual] = useState(true);
+  const [tiers, setTiers] = useState(PRICING_TIERS);
+  const [matrix, setMatrix] = useState(PRICING_COMPARISON_MATRIX);
+
+  useEffect(() => {
+    fetchPricingContent().then((res) => {
+      if (res?.data?.tiers?.length > 0) setTiers(res.data.tiers);
+      if (res?.data?.matrix?.length > 0) setMatrix(res.data.matrix);
+    });
+  }, []);
 
   return (
     <section className="section">
@@ -84,7 +94,7 @@ export default function PricingTable({ onOpenDemoModal }) {
 
         {/* Pricing Tier Cards Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))', gap: '32px', alignItems: 'stretch' }}>
-          {PRICING_TIERS.map((tier) => {
+          {tiers.map((tier) => {
             const price = isAnnual ? tier.priceAnnual : tier.priceMonthly;
 
             return (
@@ -134,11 +144,11 @@ export default function PricingTable({ onOpenDemoModal }) {
                   <p style={{ fontSize: '0.9rem', minHeight: '44px', marginBottom: '24px' }}>{tier.tagline}</p>
 
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '28px' }}>
-                    <span style={{ fontSize: '3rem', fontWeight: 900, color: '#ffffff', lineHeight: 1 }}>
-                      ${price}
+                    <span style={{ fontSize: '2.6rem', fontWeight: 900, color: '#ffffff', lineHeight: 1 }}>
+                      ₹{price.toLocaleString()}
                     </span>
-                    <span style={{ fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
-                      / table station / mo
+                    <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                      / outlet / mo
                     </span>
                   </div>
 
@@ -181,13 +191,13 @@ export default function PricingTable({ onOpenDemoModal }) {
               <thead>
                 <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>
                   <th style={{ padding: '16px', fontSize: '0.95rem', color: '#94a3b8' }}>Platform Capability</th>
-                  <th style={{ padding: '16px', fontSize: '0.95rem', color: '#ffffff', textAlign: 'center' }}>Starter ($49/mo)</th>
-                  <th style={{ padding: '16px', fontSize: '0.95rem', color: '#10b981', textAlign: 'center' }}>Growth AI ($99/mo)</th>
-                  <th style={{ padding: '16px', fontSize: '0.95rem', color: '#ffffff', textAlign: 'center' }}>Enterprise</th>
+                  <th style={{ padding: '16px', fontSize: '0.95rem', color: '#ffffff', textAlign: 'center' }}>Starter (₹1,499/mo)</th>
+                  <th style={{ padding: '16px', fontSize: '0.95rem', color: '#10b981', textAlign: 'center' }}>Growth AI (₹2,999/mo)</th>
+                  <th style={{ padding: '16px', fontSize: '0.95rem', color: '#ffffff', textAlign: 'center' }}>Enterprise (Custom)</th>
                 </tr>
               </thead>
               <tbody>
-                {PRICING_COMPARISON_MATRIX.map((row, idx) => (
+                {matrix.map((row, idx) => (
                   <tr key={idx} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
                     <td style={{ padding: '14px 16px', fontSize: '0.9rem', color: '#f8fafc' }}>{row.feature}</td>
                     <td style={{ padding: '14px 16px', textAlign: 'center' }}>

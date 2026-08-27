@@ -75,7 +75,7 @@ export default function BentoGrid() {
             </p>
 
             <div style={{ background: 'rgba(245, 158, 11, 0.1)', padding: '12px', borderRadius: '12px', border: '1px solid rgba(245, 158, 11, 0.25)', fontSize: '0.85rem', color: '#fde68a', fontWeight: 600 }}>
-              ⚡ Zero Reprint Costs ($0 Paper)
+              ⚡ Zero Reprint Costs (₹0 Paper)
             </div>
           </div>
 

@@ -37,103 +37,129 @@ export default function Navbar({ onOpenDemoModal }) {
         left: 0,
         right: 0,
         zIndex: 1000,
-        transition: 'all 0.3s ease',
+        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
         background: isScrolled
-          ? 'rgba(7, 9, 14, 0.85)'
-          : 'rgba(7, 9, 14, 0.5)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
+          ? 'rgba(7, 9, 14, 0.95)'
+          : 'rgba(7, 9, 14, 0.75)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
         borderBottom: isScrolled
           ? '1px solid rgba(255, 255, 255, 0.1)'
-          : '1px solid rgba(255, 255, 255, 0.05)',
-        padding: isScrolled ? '14px 0' : '20px 0',
+          : '1px solid rgba(255, 255, 255, 0.06)',
+        padding: isScrolled ? '12px 0' : '16px 0',
       }}
     >
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div
+        className="container"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '20px',
+        }}
+      >
         {/* Brand Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+        <Link
+          to="/"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            textDecoration: 'none',
+            flexShrink: 0,
+          }}
+        >
           <img
-            src="/logo.png"
-            alt="RestroMind AI Logo"
+            src="/logo-icon.png"
+            alt="RestroMind AI"
             style={{
-              height: '42px',
-              width: '42px',
-              borderRadius: '10px',
+              height: '36px',
+              width: '36px',
+              borderRadius: '9px',
               objectFit: 'cover',
-              boxShadow: '0 0 20px rgba(239, 68, 68, 0.4)',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
+              border: '1px solid rgba(239, 68, 68, 0.4)',
+              boxShadow: '0 0 16px rgba(239, 68, 68, 0.35)',
             }}
           />
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '1.35rem', fontWeight: 900, letterSpacing: '-0.02em', color: '#ffffff' }}>
-                Restro<span style={{ color: '#ef4444' }}>Mind</span>
-              </span>
-              <span
-                style={{
-                  fontSize: '0.75rem',
-                  fontWeight: 800,
-                  padding: '2px 6px',
-                  borderRadius: '6px',
-                  background: 'rgba(239, 68, 68, 0.18)',
-                  color: '#f87171',
-                  border: '1px solid rgba(239, 68, 68, 0.35)',
-                  textTransform: 'uppercase',
-                }}
-              >
-                AI
-              </span>
-            </div>
-            <div style={{ fontSize: '0.62rem', color: '#94a3b8', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600, marginTop: '-2px' }}>
-              Modern Restaurant Intelligence
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ fontSize: '1.28rem', fontWeight: 900, letterSpacing: '-0.02em', color: '#ffffff' }}>
+              Restro<span style={{ color: '#ef4444' }}>Mind</span>
+            </span>
+            <span
+              style={{
+                fontSize: '0.68rem',
+                fontWeight: 800,
+                padding: '2px 5px',
+                borderRadius: '4px',
+                background: 'rgba(239, 68, 68, 0.15)',
+                color: '#f87171',
+                border: '1px solid rgba(239, 68, 68, 0.35)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+              }}
+            >
+              AI
+            </span>
           </div>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav style={{ display: 'none', alignItems: 'center', gap: '28px' }} className="desktop-nav">
+        {/* Center Floating Glassmorphism Navigation Island */}
+        <nav
+          style={{
+            display: 'none',
+            alignItems: 'center',
+            background: 'rgba(255, 255, 255, 0.04)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '9999px',
+            padding: '4px 6px',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)',
+            backdropFilter: 'blur(12px)',
+          }}
+          className="desktop-nav"
+        >
           {navLinks.map((link) => (
             <NavLink
               key={link.path}
               to={link.path}
               style={({ isActive }) => ({
-                fontSize: '0.95rem',
-                fontWeight: isActive ? 600 : 500,
-                color: isActive ? '#34d399' : 'var(--text-secondary)',
-                transition: 'color 0.2s ease',
-                position: 'relative',
-                padding: '6px 0',
+                fontSize: '0.86rem',
+                fontWeight: isActive ? 700 : 500,
+                color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.65)',
+                background: isActive ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                border: isActive ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid transparent',
+                padding: '6px 16px',
+                borderRadius: '9999px',
+                textDecoration: 'none',
+                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                display: 'inline-flex',
+                alignItems: 'center',
               })}
             >
-              {({ isActive }) => (
-                <>
-                  {link.name}
-                  {isActive && (
-                    <span
-                      style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: '2px',
-                        background: 'linear-gradient(90deg, #10b981, #6366f1)',
-                        borderRadius: '2px',
-                      }}
-                    />
-                  )}
-                </>
-              )}
+              {link.name}
             </NavLink>
           ))}
         </nav>
 
-        {/* Desktop Action CTAs */}
-        <div style={{ display: 'none', alignItems: 'center', gap: '14px' }} className="desktop-actions">
-          <Link to="/demo" className="btn btn-secondary btn-sm" style={{ display: 'inline-flex', gap: '6px' }}>
-            <QrCode size={16} />
-            <span>Scan Demo QR</span>
-          </Link>
-          <button onClick={onOpenDemoModal} className="btn btn-primary btn-sm">
+        {/* Desktop Action CTA */}
+        <div
+          style={{
+            display: 'none',
+            alignItems: 'center',
+            flexShrink: 0,
+          }}
+          className="desktop-actions"
+        >
+          <button
+            onClick={onOpenDemoModal}
+            className="btn btn-primary"
+            style={{
+              padding: '8px 20px',
+              fontSize: '0.88rem',
+              borderRadius: '9999px',
+              fontWeight: 600,
+              boxShadow: '0 0 20px rgba(16, 185, 129, 0.35)',
+            }}
+          >
             <span>Book Live Demo</span>
             <ArrowRight size={15} />
           </button>
@@ -189,10 +215,6 @@ export default function Navbar({ onOpenDemoModal }) {
             </NavLink>
           ))}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '10px' }}>
-            <Link to="/demo" className="btn btn-secondary" style={{ width: '100%' }}>
-              <QrCode size={18} />
-              <span>Scan Demo QR</span>
-            </Link>
             <button onClick={onOpenDemoModal} className="btn btn-primary" style={{ width: '100%' }}>
               <span>Book Live Demo</span>
               <ArrowRight size={16} />
