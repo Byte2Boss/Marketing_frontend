@@ -94,6 +94,18 @@ export const submitContact = async (contactData) => {
   }
 };
 
+export const fetchTeamMembers = async () => {
+  try {
+    const res = await apiClient.get('/team');
+    return res.data;
+  } catch (error) {
+    return {
+      success: true,
+      data: [],
+    };
+  }
+};
+
 export const subscribeNewsletter = async (newsletterData) => {
   try {
     const res = await apiClient.post('/newsletter/subscribe', newsletterData);
