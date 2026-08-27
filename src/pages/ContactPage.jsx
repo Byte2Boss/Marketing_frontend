@@ -134,8 +134,8 @@ export default function ContactPage({ onShowToast }) {
                       <Phone size={20} color="#6366f1" />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Direct Sales Line</div>
-                      <div style={{ fontWeight: 600, color: '#ffffff' }}>+1 (888) 737-8766</div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Direct Sales & Support</div>
+                      <div style={{ fontWeight: 600, color: '#ffffff' }}>+91 98765 43210</div>
                     </div>
                   </div>
 
@@ -145,7 +145,7 @@ export default function ContactPage({ onShowToast }) {
                     </div>
                     <div>
                       <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Innovation HQ</div>
-                      <div style={{ fontWeight: 600, color: '#ffffff' }}>Silicon Valley & Chicago, USA</div>
+                      <div style={{ fontWeight: 600, color: '#ffffff' }}>Ahmedabad & Bengaluru, India</div>
                     </div>
                   </div>
                 </div>
@@ -265,7 +265,7 @@ export default function ContactPage({ onShowToast }) {
                           <label className="form-label">Phone Number</label>
                           <input
                             type="tel"
-                            placeholder="+1 (555) 000-0000"
+                            placeholder="+91 98765 43210"
                             value={demoData.phone}
                             onChange={(e) => setDemoData({ ...demoData, phone: e.target.value })}
                             className="form-input"

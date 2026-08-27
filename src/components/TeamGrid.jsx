@@ -1,26 +1,45 @@
-import React, { useState } from 'react';
-import { Linkedin, Github, Twitter, Sparkles, Award } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Linkedin, Github, Sparkles, Award } from 'lucide-react';
 import { TEAM_MEMBERS } from '../data/teamData';
+import { fetchTeamMembers } from '../api/endpoints';
 
 export default function TeamGrid() {
+  const [teamMembers, setTeamMembers] = useState(TEAM_MEMBERS);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const categories = ['All', 'Leadership', 'AI & Engineering', 'Advisory Board'];
+  useEffect(() => {
+    const loadTeam = async () => {
+      try {
+        const res = await fetchTeamMembers();
+        if (res?.data && Array.isArray(res.data) && res.data.length > 0) {
+          setTeamMembers(res.data);
+        }
+      } catch (err) {
+        console.warn('Using local team fallback:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadTeam();
+  }, []);
+
+  const categories = ['All', 'Leadership', 'Engineering', 'Analytics & Strategy'];
 
   const filteredMembers = activeCategory === 'All'
-    ? TEAM_MEMBERS
-    : TEAM_MEMBERS.filter((m) => m.category === activeCategory);
+    ? teamMembers
+    : teamMembers.filter((m) => m.category === activeCategory);
 
   return (
     <section className="section">
       <div className="container">
         <div className="section-header">
-          <span className="badge-pill">Leadership & Innovators</span>
+          <span className="badge-pill">Leadership & Core Team</span>
           <h2 className="section-title">
             The Minds Behind <span className="gradient-text">RestroMind AI</span>
           </h2>
           <p className="section-subtitle">
-            A multidisciplinary team of distributed systems engineers, machine learning researchers, and seasoned culinary restaurateurs.
+            Meet the core team building the next generation of autonomous restaurant intelligence.
           </p>
 
           {/* Category Filter Tabs */}
@@ -54,8 +73,12 @@ export default function TeamGrid() {
             <div key={idx} className="glass-card-interactive" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '36px 24px' }}>
               <div style={{ position: 'relative', marginBottom: '20px' }}>
                 <img
-                  src={member.avatar}
+                  src={member.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=0f172a&color=34d399&size=200`}
                   alt={member.name}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=0f172a&color=34d399&size=200`;
+                  }}
                   style={{
                     width: '110px',
                     height: '110px',
@@ -90,20 +113,15 @@ export default function TeamGrid() {
               </p>
 
               {/* Social Links */}
-              <div style={{ display: 'flex', gap: '14px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '16px', width: '100%', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '16px', width: '100%', justifyContent: 'center' }}>
                 {member.linkedin && (
                   <a href={member.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }}>
-                    <Linkedin size={18} />
+                    <Linkedin size={20} />
                   </a>
                 )}
                 {member.github && (
                   <a href={member.github} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }}>
-                    <Github size={18} />
-                  </a>
-                )}
-                {member.twitter && (
-                  <a href={member.twitter} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }}>
-                    <Twitter size={18} />
+                    <Github size={20} />
                   </a>
                 )}
               </div>
