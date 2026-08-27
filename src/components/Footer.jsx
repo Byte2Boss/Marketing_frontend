@@ -91,23 +91,27 @@ export default function Footer({ onShowToast }) {
         >
           {/* Column 1: Brand Info */}
           <div style={{ gridColumn: 'span 1' }}>
-            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginBottom: '16px' }}>
-              <div
+            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', marginBottom: '16px' }}>
+              <img
+                src="/logo.png"
+                alt="RestroMind AI Logo"
                 style={{
-                  width: '36px',
-                  height: '36px',
+                  height: '42px',
+                  width: '42px',
                   borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #10b981 0%, #6366f1 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  objectFit: 'cover',
+                  boxShadow: '0 0 20px rgba(239, 68, 68, 0.4)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
                 }}
-              >
-                <Sparkles size={18} color="#ffffff" />
+              />
+              <div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff' }}>
+                  Restro<span style={{ color: '#ef4444' }}>Mind</span> <span style={{ color: '#ef4444' }}>AI</span>
+                </div>
+                <div style={{ fontSize: '0.62rem', color: '#94a3b8', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600 }}>
+                  Intelligence for the Modern Restaurant
+                </div>
               </div>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff' }}>
-                Restro<span className="gradient-text">Mind</span> AI
-              </span>
             </Link>
             <p style={{ fontSize: '0.9rem', lineHeight: '1.6', marginBottom: '20px' }}>
               The next-generation smart restaurant operating system and AI-powered contactless QR dining platform.
