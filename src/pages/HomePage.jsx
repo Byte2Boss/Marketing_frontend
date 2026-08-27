@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import HeroSection from '../components/HeroSection';
 import BentoGrid from '../components/BentoGrid';
 import PhoneSimulator from '../components/PhoneSimulator';
+import DynamicQrGenerator from '../components/DynamicQrGenerator';
 import RoiCalculator from '../components/RoiCalculator';
 import TestimonialSection from '../components/TestimonialSection';
 import PricingTable from '../components/PricingTable';
@@ -25,7 +26,10 @@ export default function HomePage({ onOpenDemoModal, onShowToast }) {
       {/* 3. Bento Box Core Features */}
       <BentoGrid />
 
-      {/* 4. Interactive ROI Profit Calculator */}
+      {/* 4. Live Dynamic Table QR Stand Generator */}
+      <DynamicQrGenerator onOpenDemoModal={onOpenDemoModal} onShowToast={onShowToast} />
+
+      {/* 5. Interactive ROI Profit Calculator */}
       <section className="section" style={{ background: 'rgba(10, 14, 23, 0.6)' }}>
         <div className="container">
           <RoiCalculator onOpenDemoModal={onOpenDemoModal} onShowToast={onShowToast} />

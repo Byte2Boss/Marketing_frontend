@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sparkles, QrCode, LayoutDashboard, Utensils, Building2, CheckCircle2, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { CORE_FEATURES, HOW_IT_WORKS_STEPS } from '../data/featuresData';
+import { fetchFeaturesContent } from '../api/endpoints';
 import { Link } from 'react-router-dom';
 
 export default function FeaturesPage({ onOpenDemoModal }) {
+  const [features, setFeatures] = useState(CORE_FEATURES);
+
+  useEffect(() => {
+    fetchFeaturesContent().then((res) => {
+      if (res?.data?.length > 0) setFeatures(res.data);
+    });
+  }, []);
+
   const iconMap = {
     Sparkles: <Sparkles size={28} color="#10b981" />,
     QrCode: <QrCode size={28} color="#6366f1" />,
     LayoutDashboard: <LayoutDashboard size={28} color="#f59e0b" />,
     Utensils: <Utensils size={28} color="#a855f7" />,
+    Zap: <Zap size={28} color="#f59e0b" />,
+    CheckCircle2: <CheckCircle2 size={28} color="#ef4444" />,
   };
 
   return (
@@ -31,7 +42,7 @@ export default function FeaturesPage({ onOpenDemoModal }) {
       {/* Deep-Dive Feature Rows */}
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '64px' }}>
-          {CORE_FEATURES.map((feat, idx) => {
+          {features.map((feat, idx) => {
             const isReversed = idx % 2 === 1;
 
             return (

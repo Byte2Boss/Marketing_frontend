@@ -1,4 +1,9 @@
 import { apiClient } from './client';
+import { PRICING_TIERS, PRICING_COMPARISON_MATRIX } from '../data/pricingData';
+import { TESTIMONIALS, TRUST_STATS } from '../data/testimonialsData';
+import { FAQS, FAQ_CATEGORIES } from '../data/faqData';
+import { CORE_FEATURES } from '../data/featuresData';
+import { RESTAURANT_THEMES, MOCK_MENUS } from '../data/mockMenuData';
 
 export const submitLead = async (leadData) => {
   try {
@@ -94,18 +99,6 @@ export const submitContact = async (contactData) => {
   }
 };
 
-export const fetchTeamMembers = async () => {
-  try {
-    const res = await apiClient.get('/team');
-    return res.data;
-  } catch (error) {
-    return {
-      success: true,
-      data: [],
-    };
-  }
-};
-
 export const subscribeNewsletter = async (newsletterData) => {
   try {
     const res = await apiClient.post('/newsletter/subscribe', newsletterData);
@@ -114,7 +107,138 @@ export const subscribeNewsletter = async (newsletterData) => {
     return {
       success: true,
       data: newsletterData,
-      message: 'Thank you for subscribing to RestroMind AI insights!',
+      message: 'Thank you for subscribing to RestroMind AI Restaurant Insights!',
     };
+  }
+};
+
+export const submitNewsletter = subscribeNewsletter;
+
+export const fetchTeamMembers = async () => {
+  try {
+    const res = await apiClient.get('/team');
+    return res.data;
+  } catch (error) {
+    return { success: true, data: [] };
+  }
+};
+
+export const fetchPricingContent = async () => {
+  try {
+    const res = await apiClient.get('/content/pricing');
+    if (res.data?.data?.tiers?.length > 0) {
+      // Map API fields (snake_case -> camelCase) for frontend components
+      const tiers = res.data.data.tiers.map((t) => ({
+        id: t.id,
+        name: t.name,
+        tagline: t.tagline,
+        priceMonthly: t.price_monthly,
+        priceAnnual: t.price_annual,
+        isPopular: t.is_popular,
+        badge: t.badge,
+        tierScope: t.tier_scope,
+        ctaText: t.cta_text,
+        features: t.features,
+      }));
+      return {
+        success: true,
+        data: {
+          tiers,
+          matrix: res.data.data.matrix,
+        },
+      };
+    }
+    return { success: true, data: { tiers: PRICING_TIERS, matrix: PRICING_COMPARISON_MATRIX } };
+  } catch (error) {
+    return { success: true, data: { tiers: PRICING_TIERS, matrix: PRICING_COMPARISON_MATRIX } };
+  }
+};
+
+export const fetchTestimonialsContent = async () => {
+  try {
+    const res = await apiClient.get('/content/testimonials');
+    if (res.data?.data?.testimonials?.length > 0) {
+      return {
+        success: true,
+        data: {
+          testimonials: res.data.data.testimonials,
+          trustStats: res.data.data.trust_stats,
+        },
+      };
+    }
+    return { success: true, data: { testimonials: TESTIMONIALS, trustStats: TRUST_STATS } };
+  } catch (error) {
+    return { success: true, data: { testimonials: TESTIMONIALS, trustStats: TRUST_STATS } };
+  }
+};
+
+export const fetchFaqsContent = async () => {
+  try {
+    const res = await apiClient.get('/content/faqs');
+    if (res.data?.data?.faqs?.length > 0) {
+      return res.data;
+    }
+    return { success: true, data: { categories: FAQ_CATEGORIES, faqs: FAQS } };
+  } catch (error) {
+    return { success: true, data: { categories: FAQ_CATEGORIES, faqs: FAQS } };
+  }
+};
+
+export const fetchFeaturesContent = async () => {
+  try {
+    const res = await apiClient.get('/content/features');
+    if (res.data?.data?.length > 0) {
+      const features = res.data.data.map((f) => ({
+        id: f.id,
+        title: f.title,
+        subtitle: f.subtitle,
+        description: f.description,
+        category: f.category,
+        iconName: f.icon_name,
+        color: f.color,
+        metricsBadge: f.metrics_badge,
+        bulletPoints: f.bullet_points,
+      }));
+      return { success: true, data: features };
+    }
+    return { success: true, data: CORE_FEATURES };
+  } catch (error) {
+    return { success: true, data: CORE_FEATURES };
+  }
+};
+
+export const fetchMenuConceptsContent = async () => {
+  try {
+    const res = await apiClient.get('/content/concepts');
+    if (res.data?.data?.length > 0) {
+      const themes = res.data.data.map((c) => ({
+        id: c.id,
+        name: c.name,
+        concept: c.concept,
+        accentColor: c.accent_color,
+        vibe: c.vibe,
+      }));
+
+      const menus = {};
+      res.data.data.forEach((c) => {
+        menus[c.id] = {
+          title: c.title,
+          tagline: c.tagline,
+          categories: c.categories,
+          items: c.items || [],
+        };
+      });
+
+      return {
+        success: true,
+        data: {
+          themes,
+          menus,
+        },
+      };
+    }
+    return { success: true, data: { themes: RESTAURANT_THEMES, menus: MOCK_MENUS } };
+  } catch (error) {
+    return { success: true, data: { themes: RESTAURANT_THEMES, menus: MOCK_MENUS } };
   }
 };

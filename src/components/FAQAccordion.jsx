@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
 import { FAQS, FAQ_CATEGORIES } from '../data/faqData';
+import { fetchFaqsContent } from '../api/endpoints';
 
 export default function FAQAccordion() {
   const [openIdx, setOpenIdx] = useState(0);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [faqsList, setFaqsList] = useState(FAQS);
+  const [faqCategories, setFaqCategories] = useState(FAQ_CATEGORIES);
 
-  const categories = ['All', ...FAQ_CATEGORIES];
+  useEffect(() => {
+    fetchFaqsContent().then((res) => {
+      if (res?.data?.faqs?.length > 0) setFaqsList(res.data.faqs);
+      if (res?.data?.categories?.length > 0) setFaqCategories(res.data.categories);
+    });
+  }, []);
+
+  const categories = ['All', ...faqCategories];
 
   const filteredFaqs = activeCategory === 'All'
-    ? FAQS
-    : FAQS.filter((f) => f.category === activeCategory);
+    ? faqsList
+    : faqsList.filter((f) => f.category === activeCategory);
 
   return (
     <section className="section">

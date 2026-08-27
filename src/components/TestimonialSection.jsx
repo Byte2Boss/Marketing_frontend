@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, Quote, TrendingUp } from 'lucide-react';
 import { TESTIMONIALS, TRUST_STATS } from '../data/testimonialsData';
+import { fetchTestimonialsContent } from '../api/endpoints';
 
 export default function TestimonialSection() {
+  const [testimonials, setTestimonials] = useState(TESTIMONIALS);
+  const [trustStats, setTrustStats] = useState(TRUST_STATS);
+
+  useEffect(() => {
+    fetchTestimonialsContent().then((res) => {
+      if (res?.data?.testimonials?.length > 0) setTestimonials(res.data.testimonials);
+      if (res?.data?.trustStats?.length > 0) setTrustStats(res.data.trustStats);
+    });
+  }, []);
+
   return (
     <section className="section" style={{ background: 'rgba(7, 9, 14, 0.7)' }}>
       <div className="container">
@@ -20,7 +31,7 @@ export default function TestimonialSection() {
             borderColor: 'rgba(16, 185, 129, 0.25)',
           }}
         >
-          {TRUST_STATS.map((stat, idx) => (
+          {trustStats.map((stat, idx) => (
             <div key={idx}>
               <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em' }}>
                 {stat.value}
@@ -44,7 +55,7 @@ export default function TestimonialSection() {
 
         {/* Testimonials Cards Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
-          {TESTIMONIALS.map((t) => (
+          {testimonials.map((t) => (
             <div key={t.id} className="glass-card-interactive" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '36px 28px' }}>
               <div>
                 {/* Star Ratings */}

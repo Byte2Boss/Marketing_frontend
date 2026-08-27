@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sparkles, Plus, Check, ShoppingBag, ArrowRight, Utensils, RefreshCw, X } from 'lucide-react';
 import { RESTAURANT_THEMES, MOCK_MENUS } from '../data/mockMenuData';
+import { fetchMenuConceptsContent } from '../api/endpoints';
 
 export default function PhoneSimulator() {
+  const [themes, setThemes] = useState(RESTAURANT_THEMES);
+  const [menus, setMenus] = useState(MOCK_MENUS);
   const [selectedTheme, setSelectedTheme] = useState('steakhouse');
   const [activeCategory, setActiveCategory] = useState('All');
   const [cart, setCart] = useState([]);
   const [activeUpsell, setActiveUpsell] = useState(null);
   const [orderPlaced, setOrderPlaced] = useState(false);
 
-  const menu = MOCK_MENUS[selectedTheme] || MOCK_MENUS.steakhouse;
+  useEffect(() => {
+    fetchMenuConceptsContent().then((res) => {
+      if (res?.data?.themes?.length > 0) setThemes(res.data.themes);
+      if (res?.data?.menus && Object.keys(res.data.menus).length > 0) setMenus(res.data.menus);
+    });
+  }, []);
+
+  const menu = menus[selectedTheme] || menus.steakhouse || { title: 'Menu', tagline: '', categories: ['All'], items: [] };
 
   const handleThemeChange = (themeId) => {
     setSelectedTheme(themeId);
@@ -59,7 +69,7 @@ export default function PhoneSimulator() {
 
         {/* Theme Selector Pills */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '28px' }}>
-          {RESTAURANT_THEMES.map((theme) => {
+          {themes.map((theme) => {
             const isSelected = selectedTheme === theme.id;
             return (
               <button
@@ -83,283 +93,229 @@ export default function PhoneSimulator() {
                   <div style={{ fontWeight: 700, fontSize: '1rem', color: isSelected ? '#34d399' : '#ffffff' }}>
                     {theme.name}
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>{theme.tag}</div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>{theme.concept}</div>
                 </div>
-                {isSelected && (
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', color: '#10b981', fontWeight: 600 }}>
-                    <Check size={16} /> Active
-                  </span>
-                )}
+                <div style={{ fontSize: '0.75rem', background: 'rgba(255, 255, 255, 0.08)', padding: '4px 10px', borderRadius: '9999px' }}>
+                  {theme.vibe}
+                </div>
               </button>
             );
           })}
         </div>
 
-        {/* Live Simulator Highlights */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-          <div className="glass-card" style={{ padding: '16px' }}>
-            <div style={{ color: '#10b981', fontWeight: 800, fontSize: '1.4rem' }}>0 App Installs</div>
-            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>100% Mobile Browser</div>
+        <div style={{ background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.25)', borderRadius: '16px', padding: '18px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#34d399', fontWeight: 700, fontSize: '0.9rem', marginBottom: '4px' }}>
+            <Sparkles size={16} /> Autonomous AI Pairing Engine
           </div>
-          <div className="glass-card" style={{ padding: '16px' }}>
-            <div style={{ color: '#6366f1', fontWeight: 800, fontSize: '1.4rem' }}>+24.8% AOV</div>
-            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Real-Time AI Upsells</div>
-          </div>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+            Click "+" on any dish in the phone simulator to trigger an automated sommelier pairing prompt.
+          </p>
         </div>
       </div>
 
-      {/* Right: In-Browser Simulated Smartphone Device */}
-      <div style={{ position: 'relative' }}>
-        <div className="phone-frame">
-          {/* Notch & Status Bar */}
-          <div className="phone-notch">
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#111827', marginRight: '6px' }} />
-            <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#4b5563' }} />
+      {/* Right Phone Device Mockup Frame */}
+      <div className="phone-frame">
+        {/* Top Notch */}
+        <div className="phone-notch">
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#000000', marginRight: '6px' }} />
+          <span style={{ width: '40px', height: '4px', borderRadius: '2px', background: '#374151' }} />
+        </div>
+
+        {/* Dynamic Concept Header */}
+        <div
+          style={{
+            padding: '40px 16px 14px',
+            background: 'linear-gradient(180deg, rgba(17, 24, 39, 0.95) 0%, rgba(15, 23, 42, 0.8) 100%)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Table #04 • Dine-In
+            </span>
+            <span style={{ fontSize: '0.72rem', background: 'rgba(16, 185, 129, 0.2)', color: '#34d399', padding: '2px 8px', borderRadius: '9999px', fontWeight: 700 }}>
+              Live AI Menu
+            </span>
           </div>
 
-          <div className="phone-screen">
-            {/* Table QR Header inside Phone */}
-            <div
-              style={{
-                padding: '16px',
-                background: 'linear-gradient(180deg, rgba(16, 185, 129, 0.15) 0%, transparent 100%)',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span
-                  style={{
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    padding: '2px 8px',
-                    borderRadius: '6px',
-                    background: '#10b981',
-                    color: '#000000',
-                  }}
-                >
-                  Table #04 (Dine-In)
-                </span>
-                <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>RestroMind AI Menu</span>
-              </div>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#ffffff' }}>
-                {RESTAURANT_THEMES.find((t) => t.id === selectedTheme)?.name}
-              </h3>
-              <p style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '2px' }}>{menu.banner}</p>
-            </div>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', marginBottom: '2px' }}>
+            {menu.title}
+          </h3>
+          <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>{menu.tagline}</p>
 
-            {/* Category Chips inside Phone */}
-            <div
-              style={{
-                display: 'flex',
-                gap: '8px',
-                padding: '12px 16px',
-                overflowX: 'auto',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-                scrollbarWidth: 'none',
-              }}
-            >
+          {/* Category Tabs inside Phone */}
+          <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '4px', marginTop: '12px', scrollbarWidth: 'none' }}>
+            {menu.categories.map((cat) => (
               <button
-                onClick={() => setActiveCategory('All')}
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
                 style={{
-                  padding: '6px 12px',
-                  borderRadius: '20px',
+                  padding: '4px 10px',
+                  borderRadius: '9999px',
                   border: 'none',
-                  background: activeCategory === 'All' ? '#10b981' : 'rgba(255, 255, 255, 0.08)',
-                  color: activeCategory === 'All' ? '#000000' : '#ffffff',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
+                  background: activeCategory === cat ? '#10b981' : 'rgba(255, 255, 255, 0.06)',
+                  color: activeCategory === cat ? '#000000' : 'var(--text-secondary)',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
                 }}
               >
-                All Items
+                {cat}
               </button>
-              {menu.categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  style={{
-                    padding: '6px 12px',
-                    borderRadius: '20px',
-                    border: 'none',
-                    background: activeCategory === cat ? '#10b981' : 'rgba(255, 255, 255, 0.08)',
-                    color: activeCategory === cat ? '#000000' : '#ffffff',
-                    fontSize: '0.78rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-
-            {/* Menu Items List */}
-            <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {filteredItems.map((item) => (
-                <div
-                  key={item.id}
-                  style={{
-                    background: 'rgba(15, 23, 42, 0.7)',
-                    borderRadius: '16px',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    overflow: 'hidden',
-                  }}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    style={{ width: '100%', height: '110px', objectFit: 'cover' }}
-                  />
-                  <div style={{ padding: '12px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
-                      <h4 style={{ fontSize: '0.92rem', fontWeight: 700, color: '#ffffff' }}>{item.name}</h4>
-                      <span style={{ fontWeight: 800, color: '#10b981', fontSize: '0.95rem' }}>
-                        ${item.price.toFixed(2)}
-                      </span>
-                    </div>
-                    <p style={{ fontSize: '0.75rem', color: '#94a3b8', lineHeight: '1.4', marginBottom: '10px' }}>
-                      {item.description}
-                    </p>
-                    <button
-                      onClick={() => handleAddItem(item)}
-                      className="btn btn-primary btn-sm"
-                      style={{ width: '100%', padding: '6px', fontSize: '0.78rem', gap: '4px' }}
-                    >
-                      <Plus size={14} /> Add to Table Order
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* AI Upsell Dynamic Modal / Prompt Inside Phone */}
-            {activeUpsell && (
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: '0',
-                  background: 'rgba(0, 0, 0, 0.85)',
-                  backdropFilter: 'blur(8px)',
-                  padding: '24px 16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  zIndex: 100,
-                  animation: 'fadeIn 0.2s ease',
-                }}
-              >
-                <div
-                  style={{
-                    background: '#131b2e',
-                    border: '1px solid #10b981',
-                    borderRadius: '20px',
-                    padding: '20px',
-                    width: '100%',
-                    boxShadow: '0 0 30px rgba(16, 185, 129, 0.3)',
-                    textAlign: 'center',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: '#34d399', fontWeight: 700, fontSize: '0.85rem', marginBottom: '8px' }}>
-                    <Sparkles size={16} /> {activeUpsell.title}
-                  </div>
-                  <p style={{ fontSize: '0.82rem', color: '#f8fafc', lineHeight: '1.5', marginBottom: '16px' }}>
-                    {activeUpsell.text}
-                  </p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <button
-                      onClick={handleAcceptUpsell}
-                      className="btn btn-primary btn-sm"
-                      style={{ width: '100%', fontSize: '0.82rem' }}
-                    >
-                      Yes, Add Pair (+ ${activeUpsell.suggestedItem.price.toFixed(2)})
-                    </button>
-                    <button
-                      onClick={() => setActiveUpsell(null)}
-                      style={{
-                        background: 'transparent',
-                        border: 'none',
-                        color: '#94a3b8',
-                        fontSize: '0.78rem',
-                        cursor: 'pointer',
-                        padding: '6px',
-                      }}
-                    >
-                      No thanks, keep original
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Order Placed Success Inside Phone */}
-            {orderPlaced && (
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: '#090d16',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '24px',
-                  zIndex: 90,
-                  textAlign: 'center',
-                }}
-              >
-                <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.2)', border: '2px solid #10b981', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-                  <Check size={28} />
-                </div>
-                <h4 style={{ fontSize: '1.2rem', color: '#ffffff', marginBottom: '6px' }}>Order Sent to Kitchen!</h4>
-                <p style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '20px' }}>
-                  Table #04 ticket dispatched with live prep timer.
-                </p>
-                <button
-                  onClick={() => { setOrderPlaced(false); setCart([]); }}
-                  className="btn btn-secondary btn-sm"
-                >
-                  <RefreshCw size={14} /> Start New Test Order
-                </button>
-              </div>
-            )}
+            ))}
           </div>
+        </div>
 
-          {/* Persistent Floating Cart Bar inside Phone */}
-          {cart.length > 0 && !orderPlaced && !activeUpsell && (
+        {/* Menu Items List inside Phone */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '12px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {filteredItems.map((item, idx) => (
             <div
+              key={idx}
               style={{
-                position: 'absolute',
-                bottom: '12px',
-                left: '12px',
-                right: '12px',
-                background: '#10b981',
-                borderRadius: '16px',
-                padding: '12px 16px',
+                background: 'rgba(30, 41, 59, 0.5)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                borderRadius: '14px',
+                padding: '12px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                color: '#000000',
-                fontWeight: 700,
-                boxShadow: '0 8px 24px rgba(16, 185, 129, 0.5)',
-                cursor: 'pointer',
-                zIndex: 80,
+                gap: '10px',
               }}
-              onClick={() => setOrderPlaced(true)}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem' }}>
-                <ShoppingBag size={18} />
-                <span>{cart.length} item{cart.length > 1 ? 's' : ''}</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#ffffff' }}>{item.name}</div>
+                <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', lineHeight: '1.3', marginTop: '2px' }}>
+                  {item.desc}
+                </div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#34d399', marginTop: '4px' }}>
+                  ₹{item.price}.00
+                </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.88rem' }}>
-                <span>${cartTotal.toFixed(2)}</span>
-                <span style={{ fontSize: '0.78rem', background: '#000000', color: '#ffffff', padding: '2px 8px', borderRadius: '8px' }}>
-                  Send to Kitchen →
-                </span>
-              </div>
+
+              <button
+                onClick={() => handleAddItem(item)}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '10px',
+                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                  border: 'none',
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  boxShadow: '0 2px 8px rgba(16, 185, 129, 0.4)',
+                }}
+                aria-label={`Add ${item.name}`}
+              >
+                <Plus size={18} />
+              </button>
             </div>
-          )}
+          ))}
+        </div>
+
+        {/* AI Upsell Prompt Toast Popup inside Phone */}
+        {activeUpsell && (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '72px',
+              left: '12px',
+              right: '12px',
+              background: 'linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)',
+              border: '1px solid #6366f1',
+              borderRadius: '16px',
+              padding: '14px',
+              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
+              zIndex: 30,
+              animation: 'fadeIn 0.3s ease',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', fontWeight: 800, color: '#818cf8' }}>
+                <Sparkles size={14} /> AI PAIRING SUGGESTION
+              </div>
+              <button
+                onClick={() => setActiveUpsell(null)}
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
+              >
+                <X size={14} />
+              </button>
+            </div>
+
+            <p style={{ fontSize: '0.78rem', color: '#ffffff', marginBottom: '8px', lineHeight: '1.4' }}>
+              {activeUpsell.message}
+            </p>
+
+            <button
+              onClick={handleAcceptUpsell}
+              style={{
+                width: '100%',
+                padding: '8px',
+                borderRadius: '8px',
+                background: '#6366f1',
+                border: 'none',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+              }}
+            >
+              <span>Add {activeUpsell.suggestedItem.name}</span>
+              <span>(+₹{activeUpsell.suggestedItem.price}.00)</span>
+            </button>
+          </div>
+        )}
+
+        {/* Bottom Cart Bar inside Phone */}
+        <div
+          style={{
+            padding: '14px 16px',
+            background: 'rgba(15, 23, 42, 0.95)',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              {cart.length} {cart.length === 1 ? 'item' : 'items'}
+            </div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: '#ffffff' }}>
+              ₹{cartTotal}.00
+            </div>
+          </div>
+
+          <button
+            onClick={() => setOrderPlaced(true)}
+            disabled={cart.length === 0}
+            style={{
+              padding: '8px 18px',
+              borderRadius: '9999px',
+              border: 'none',
+              background: cart.length > 0 ? '#10b981' : 'rgba(255, 255, 255, 0.1)',
+              color: cart.length > 0 ? '#000000' : 'var(--text-muted)',
+              fontWeight: 700,
+              fontSize: '0.82rem',
+              cursor: cart.length > 0 ? 'pointer' : 'default',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <ShoppingBag size={14} />
+            <span>{orderPlaced ? 'Order Sent ✓' : 'Send Order'}</span>
+          </button>
         </div>
       </div>
     </div>
