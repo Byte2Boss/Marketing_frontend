@@ -1,0 +1,87 @@
+export const CORE_FEATURES = [
+  {
+    id: 'ai-engine',
+    title: 'Autonomous AI Menu Intelligence',
+    tagline: 'Upsell pairings and appetizing descriptions that boost margin by 24%',
+    description: 'Our proprietary hospitality AI analyzes ingredient relationships, diner order histories, and profit margins to dynamically recommend high-yield side dishes, cellar pairings, and desserts at the optimal moment.',
+    icon: 'Sparkles',
+    badge: 'AI Powered',
+    stats: '+24.8% Average Check Uplift',
+    color: '#10b981',
+    bullets: [
+      'Automated appetizing copy generation for newly added dishes',
+      'Sommelier AI wine & craft cocktail pairings for entrees',
+      'High-margin chef special highlight algorithms',
+      'Dietary & allergen intelligent filters (Gluten-Free, Vegan, Halal)',
+    ],
+  },
+  {
+    id: 'qr-engine',
+    title: 'Table-Scoped Contactless QR',
+    tagline: 'Scan to order in under 3 seconds with zero app installs required',
+    description: 'Every table receives a unique, cryptographic QR code. Diners simply point their phone camera and instantly browse the full digital menu in their mobile browser with sub-second loading speeds.',
+    icon: 'QrCode',
+    badge: 'Contactless',
+    stats: '3-Second Instant Access',
+    color: '#6366f1',
+    bullets: [
+      '100% browser-based (No App Store or Play Store downloads)',
+      'Table-specific session management (Table 4 vs Patio 12)',
+      'High-res printable QR code generator (PNG / Vector SVG)',
+      'Offline-safe caching for venues with poor Wi-Fi',
+    ],
+  },
+  {
+    id: 'owner-dashboard',
+    title: 'Real-Time Owner Management Control',
+    tagline: 'Instant 86/out-of-stock toggling and live revenue heatmaps',
+    description: 'Empower your floor managers and kitchen staff to make instant price adjustments, toggle sold-out ingredients across all tables in 2 seconds, and monitor live sales velocity from any device.',
+    icon: 'LayoutDashboard',
+    badge: 'Operations',
+    stats: '2-Second Instant Sync',
+    color: '#f59e0b',
+    bullets: [
+      '1-Click Out-of-Stock (86) toggle across all tables',
+      'Scheduled menus (Breakfast, Lunch, Dinner, Happy Hour)',
+      'Staff permissions and owner-scoped multi-tenant control',
+      'Visual item image uploads with automatic compression',
+    ],
+  },
+  {
+    id: 'kitchen-sync',
+    title: 'Kitchen & Bar Live Dispatch Sync',
+    tagline: 'Route table orders straight from guest smartphones to preparation screens',
+    description: 'Eliminate handwritten tickets and waiter bottlenecks. When customers place orders via their table QR, tickets instantly route to kitchen and bar displays with prep timers.',
+    icon: 'Utensils',
+    badge: 'Kitchen Flow',
+    stats: '-18 min Faster Table Turn',
+    color: '#a855f7',
+    bullets: [
+      'Multi-station order routing (Kitchen vs. Bar vs. Dessert)',
+      'Color-coded prep time countdown indicators',
+      'Waiter call button & bill settlement requests',
+      'Direct kitchen receipt thermal printer support',
+    ],
+  },
+];
+
+export const HOW_IT_WORKS_STEPS = [
+  {
+    step: '01',
+    title: 'Create or Import Your Menu',
+    description: 'Upload your items, set prices, and let RestroMind AI automatically craft appetizing descriptions and pairing suggestions.',
+    icon: 'UploadCloud',
+  },
+  {
+    step: '02',
+    title: 'Print & Place Table QR Codes',
+    description: 'Download table-scoped QR cards and place them on dining tables, bar tops, and outdoor patio stations in minutes.',
+    icon: 'Printer',
+  },
+  {
+    step: '03',
+    title: 'Watch Orders & Revenue Grow',
+    description: 'Guests scan, browse, and order seamlessly while AI upsells boost average ticket size by 18-28% automatically.',
+    icon: 'TrendingUp',
+  },
+];
