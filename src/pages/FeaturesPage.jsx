@@ -62,23 +62,23 @@ export default function FeaturesPage({ onOpenDemoModal }) {
                 <div style={{ order: isReversed ? 2 : 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                     <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(255, 255, 255, 0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      {iconMap[feat.icon]}
+                      {iconMap[feat.icon] || <Sparkles size={28} color="#10b981" />}
                     </div>
-                    <span className="badge-pill" style={{ marginBottom: 0, color: feat.color, borderColor: `${feat.color}40` }}>
-                      {feat.badge}
+                    <span className="badge-pill" style={{ marginBottom: 0, color: feat.color || '#10b981', borderColor: `${feat.color || '#10b981'}40` }}>
+                      {feat.badge || 'Platform Feature'}
                     </span>
                   </div>
 
                   <h2 style={{ fontSize: '2rem', marginBottom: '12px' }}>{feat.title}</h2>
                   <h4 style={{ fontSize: '1.05rem', color: '#34d399', fontWeight: 600, marginBottom: '16px' }}>
-                    {feat.tagline}
+                    {feat.tagline || ''}
                   </h4>
                   <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '24px' }}>
                     {feat.description}
                   </p>
 
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '28px' }}>
-                    {feat.bullets.map((b, i) => (
+                    {(feat.bullets || []).map((b, i) => (
                       <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#e2e8f0' }}>
                         <CheckCircle2 size={18} color="#10b981" /> {b}
                       </li>

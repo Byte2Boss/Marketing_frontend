@@ -191,13 +191,13 @@ export const fetchFeaturesContent = async () => {
       const features = res.data.data.map((f) => ({
         id: f.id,
         title: f.title,
-        subtitle: f.subtitle,
+        tagline: f.subtitle || f.tagline || '',
         description: f.description,
-        category: f.category,
-        iconName: f.icon_name,
-        color: f.color,
-        metricsBadge: f.metrics_badge,
-        bulletPoints: f.bullet_points,
+        icon: f.icon_name || f.icon || 'Sparkles',
+        badge: f.category || f.badge || 'Feature',
+        stats: f.metrics_badge || f.stats || 'Validated Metric',
+        color: f.color || '#10b981',
+        bullets: f.bullet_points || f.bullets || [],
       }));
       return { success: true, data: features };
     }
